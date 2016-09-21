@@ -1,9 +1,9 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<?php if (!defined('THINK_PATH')) exit();?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <link rel="stylesheet" type="text/css" href=__PUBLIC__/css/style.css />
+    <link rel="stylesheet" type="text/css" href=/tp/Public/css/style.css />
     <style>
         #content {
             height: auto;
@@ -172,13 +172,13 @@
             background-color: #fff;
         }
     </style>
-    <script type="text/javascript" src="__PUBLIC__/js/jquery-2.2.4.min.js"></script>
+    <script type="text/javascript" src="/tp/Public/js/jquery-2.2.4.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
             var p = 0;
             var max = $("#contnum").text();
             var id = $("#id").text();
-            $("#content").load("__APP__/Home/Content/replycontent/id/" + id + "/p/" + p);
+            $("#content").load("/tp/index.php/Home/Content/replycontent/id/" + id + "/p/" + p);
 
             //输入框长度
             $("#retext").keyup(function(e) {
@@ -201,7 +201,7 @@
                     p = p - 10;
                     var i = p / 10 + 1;
                     var str = "#" + i;
-                    $("#content").load("__APP__/Home/Content/replycontent/id/" + id + "/p/" + p);
+                    $("#content").load("/tp/index.php/Home/Content/replycontent/id/" + id + "/p/" + p);
                     $(str).css("color", "red");
                 }
             })
@@ -212,14 +212,14 @@
                     p = p + 10;
                     var i = p / 10 + 1;
                     var str = "#" + i;
-                    $("#content").load("__APP__/Home/Content/replycontent/id/" + id + "/p/" + p);
+                    $("#content").load("/tp/index.php/Home/Content/replycontent/id/" + id + "/p/" + p);
                     $(str).css("color", "red");
                 }
             })
             $(".p").click(function() {
                 $(".p").css("color", "#000");
                 p = ($(this).attr("id") - 1) * 10;
-                $("#content").load("__APP__/Home/Content/replycontent/id/" + id + "/p/" + p);
+                $("#content").load("/tp/index.php/Home/Content/replycontent/id/" + id + "/p/" + p);
                 $(this).css("color", "red");
             })
 
@@ -244,7 +244,7 @@
     </script>
 
 
-    <title>{$title}</title>
+    <title><?php echo ($title); ?></title>
 </head>
 
 <body>
@@ -255,14 +255,12 @@
             <div id="u">
                 <!--用户信息，登陆，注销-->
                 <div id="user">
-                    <if condition="$_SESSION[login] neq true">
-                        <a href=__APP__/Home/User/login/str/请登录>登陆</a>
-                        <else/> <a href=__APP__/Home/User/index/name/{$_SESSION[name]}>{$_SESSION["name"]}</a>
-                    </if>
+                    <?php if($_SESSION[login] != true): ?><a href=/tp/index.php/Home/User/login/str/请登录>登陆</a>
+                        <?php else: ?> <a href=/tp/index.php/Home/User/index/name/<?php echo ($_SESSION[name]); ?>><?php echo ($_SESSION["name"]); ?></a><?php endif; ?>
                 </div>
                 <!--form 搜索框-->
                 <div id="boxsearch">
-                    <form action="__APP__/Home/Index/search" method="POST">
+                    <form action="/tp/index.php/Home/Index/search" method="POST">
                         <input type="text" name="search" id="search"><input type="submit" value="搜索" id="searchbtn">
                     </form>
                 </div>
@@ -273,7 +271,7 @@
         <!--板块导航-->
         <div id="top_c">
             <!--板块导航1-->
-            <a href=__APP__/Home/Index/index>
+            <a href=/tp/index.php/Home/Index/index>
                 <div class="phoneclass">
                     机型专区
                 </div>
@@ -285,14 +283,14 @@
         <!--本版块信息：板块名，导航，版主 -->
         <div id="classinfo">
             <!--导航-->
-            <div id="gide"><a href=__APP__/Home/Index/index>机型专区</a>&nbsp;>>&nbsp;<a href=__APP__/Home/Phone/index/name/{$name}>{$name}</a>&nbsp;>>&nbsp;{$title}
-                <m id="id">{$id}</m>
+            <div id="gide"><a href=/tp/index.php/Home/Index/index>机型专区</a>&nbsp;>>&nbsp;<a href=/tp/index.php/Home/Phone/index/name/<?php echo ($name); ?>><?php echo ($name); ?></a>&nbsp;>>&nbsp;<?php echo ($title); ?>
+                <m id="id"><?php echo ($id); ?></m>
             </div>
             <!--机型名称-->
-            <div id="phoneclass"><a href=__APP__/Home/Phone/index/name/{$name}>{$name}</a></div>
+            <div id="phoneclass"><a href=/tp/index.php/Home/Phone/index/name/<?php echo ($name); ?>><?php echo ($name); ?></a></div>
             <!--版主大大-->
             <div id="banzhu">共
-                <m id="contnum">{$num}</m>帖</div>
+                <m id="contnum"><?php echo ($num); ?></m>帖</div>
         </div>
         <div id="content">
 
@@ -303,33 +301,26 @@
             <div id="previous">
                 前一页
             </div>
-            <for start="1" end="ceil($num/10)+1" name="i">
-                <div class="p" id="{$i}">{$i}</div>
-            </for>
+            <?php $__FOR_START_10201__=1;$__FOR_END_10201__=ceil($num/10)+1;for($i=$__FOR_START_10201__;$i < $__FOR_END_10201__;$i+=1){ ?><div class="p" id="<?php echo ($i); ?>"><?php echo ($i); ?></div><?php } ?>
             <div id="next">
                 下一页
             </div>
         </div>
         <div id="replyform">
-            <if condition="$_SESSION[login] eq true">
-
-                <div id="selfhead">
-                    <if condition="$selfimg neq ''">
-                        <img class="img" src=__PUBLIC__/img/head/{$selfimg} />
-                        <else/>
-                        <img class="img" src=__PUBLIC__/img/head/default.jpg />
-                    </if>
+            <?php if($_SESSION[login] == true): ?><div id="selfhead">
+                    <?php if($selfimg != ''): ?><img class="img" src=/tp/Public/img/head/<?php echo ($selfimg); ?> />
+                        <?php else: ?>
+                        <img class="img" src=/tp/Public/img/head/default.jpg /><?php endif; ?>
                 </div>
-                <form id="form" action="__APP__/Home/Content/reply/cid/{$id}" method="POST" onsubmit="return chick(this)">
+                <form id="form" action="/tp/index.php/Home/Content/reply/cid/<?php echo ($id); ?>" method="POST" onsubmit="return chick(this)">
                     <textarea id="retext" name="text"></textarea><br>
                     <input type="submit" value="回复" id="subbtn">
                     <div id="error"></div>
                 </form>
-                <else/>
+                <?php else: ?>
                 <div id="dontreply">
-                    你尚未<a href=__APP__/Home/User/login>登陆</a>，无法发表回复
-                </div>
-            </if>
+                    你尚未<a href=/tp/index.php/Home/User/login>登陆</a>，无法发表回复
+                </div><?php endif; ?>
         </div>
     </div>
     <div id="shenmin">仅供练手，无任何商业用途</div>
